@@ -4,14 +4,11 @@ require_relative './lib/bookmarks'
 class Bookmark_manager < Sinatra::Base
 
 get '/' do
-  $bookmarks = Bookmarks.new
-  $bookmarks.add('www.fakepage.com')
-  $bookmarks.add('www.testpage.com')
   erb :index
 end
 
 get '/bookmarks' do
-
+  @bookmarks = Bookmarks.all
   erb :bookmarks
 end
 
