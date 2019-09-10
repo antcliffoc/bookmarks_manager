@@ -2,3 +2,10 @@
 <form action='/bookmarks' method='get'>
 <button type='submit' value='Bookmarks'>View Bookmarks</button>
 </form>
+<div>
+  <form action='/bookmarks/new' method='post'>
+    <input type="text" name="title" placeholder="Title" />
+    <input type='text' name='url' placeholder='bookmark url'>
+    <input type='submit' value='Add bookmark'>
+  </form>
+</div>

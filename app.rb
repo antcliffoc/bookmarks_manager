@@ -12,5 +12,10 @@ get '/bookmarks' do
   erb :bookmarks
 end
 
+post '/bookmarks/new' do
+  Bookmarks.create(title: params[:title], url: params[:url])
+  redirect '/bookmarks'
+end
+
 run! if $PROGRAM_NAME == __FILE__
 end
