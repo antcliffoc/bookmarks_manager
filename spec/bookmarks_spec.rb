@@ -7,8 +7,8 @@ describe Bookmarks do
     it 'returns an array of webpage URLs' do
       connection = PG.connect(dbname: 'bookmark_manager_test')
       bookmark = Bookmarks.create(url: "http://www.makersacademy.com", title: "Makers Academy")
-      Bookmarks.create(url: 'www.fakepage.com', title: 'fake page')
-      Bookmarks.create(url: 'www.testpage.com', title: 'test page')
+      Bookmarks.create(url: 'http://www.fakepage.com', title: 'fake page')
+      Bookmarks.create(url: 'http://www.testpage.com', title: 'test page')
       bookmarks = Bookmarks.all
 
       expect(bookmarks.length).to eq 3
@@ -28,6 +28,11 @@ describe Bookmarks do
       expect(bookmark.id).to eq persisted_data['id']
       expect(bookmark.title).to eq 'Test Bookmark'
       expect(bookmark.url).to eq 'http://testcreate.com'
+    end
+
+    it 'does not create a new bookmark if the URL is not valid' do
+      Bookmarks.create(url: 'not a real bookmark', title: 'not a real bookmark')
+      expect(Bookmarks.all).not_to include 'not a real bookmark'
     end
   end
 

@@ -20,6 +20,8 @@
   <%end%>
 </ul>
 
+<h2><%= flash[:notice] %></h2>
+
 <div>
   <form action='/bookmarks/new' method='post'>
     <input type="text" name="title" placeholder="Title" />
