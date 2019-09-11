@@ -23,5 +23,15 @@ delete '/bookmarks/:id' do
   redirect '/bookmarks'
 end
 
+get '/bookmarks/:id/edit' do
+  @bookmark = Bookmarks.find(id: params[:id])
+  erb :'bookmarks/edit'
+end
+
+patch '/bookmarks/:id' do
+  Bookmarks.update(id: params[:id], title: params[:title], url: params[:url])
+  redirect '/bookmarks'
+end
+
 run! if $PROGRAM_NAME == __FILE__
 end
