@@ -2,6 +2,8 @@ require 'bookmarks'
 require 'database_helpers'
 
 describe Bookmarks do
+  let(:comment_class) { double(:comment_class) }
+
 
   describe '.all' do
     it 'returns an array of webpage URLs' do
@@ -22,10 +24,10 @@ describe Bookmarks do
   describe '.create' do
     it 'it adds a new bookmark' do
       bookmark = Bookmarks.create(url: 'http://testcreate.com', title: 'Test Bookmark')
-      persisted_data = persisted_data(id: bookmark.id)
+      persisted_data = persisted_data(table: 'bookmarks', id: bookmark.id)
 
       expect(bookmark).to be_a Bookmarks
-      expect(bookmark.id).to eq persisted_data['id']
+      expect(bookmark.id).to eq persisted_data.first['id']
       expect(bookmark.title).to eq 'Test Bookmark'
       expect(bookmark.url).to eq 'http://testcreate.com'
     end
@@ -68,6 +70,15 @@ describe Bookmarks do
       expect(result.id).to eq bookmark.id
       expect(result.title).to eq 'Makers Academy'
       expect(result.url).to eq 'http://www.makersacademy.com'
+    end
+  end
+
+  describe '#comments' do
+    it 'calls .where on the Comment class' do
+      bookmark = Bookmarks.create(title: 'Makers Academy', url: 'http://www.makersacademy.com')
+      expect(comment_class).to receive(:where).with(bookmark_id: bookmark.id)
+
+      bookmark.comments(comment_class)
     end
   end
 end

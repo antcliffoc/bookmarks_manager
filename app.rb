@@ -1,6 +1,7 @@
 require 'sinatra/flash'
 require 'sinatra/base'
 require './lib/bookmarks'
+require './lib/comment'
 require './database_connection_setup'
 require 'uri'
 
@@ -34,6 +35,18 @@ end
 
 patch '/bookmarks/:id' do
   Bookmarks.update(id: params[:id], title: params[:title], url: params[:url])
+  redirect '/bookmarks'
+end
+
+get '/bookmarks/:id/comments/new' do
+  @bookmark = Bookmarks.find(id: params[:id])
+  erb :'comments/new'
+end
+
+post '/bookmarks/:id/comments' do
+  Comment.create(text: params[:comment], bookmark_id: params[:id])
+  # connection = PG.connect(dbname: 'bookmark_manager_test')
+  # connection.exec("INSERT INTO comments (text, bookmark_id) VALUES('#{params[:comment]}', '#{params[:id]}');")
   redirect '/bookmarks'
 end
 

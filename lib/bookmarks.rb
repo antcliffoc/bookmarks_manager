@@ -10,6 +10,10 @@ class Bookmarks
     @title = title
   end
 
+  def comments(comment_class = Comment)
+    comment_class.where(bookmark_id: id)
+  end
+
   def self.all
     result = DatabaseConnection.query("SELECT * FROM bookmarks;")
     result.map do |bookmark|
